@@ -1,0 +1,85 @@
+Composition du groupe
+---------------------
+-
+Premier membre du groupe:
+Nom: Hernandez Capel 
+Prénom: Esteban	
+Matricule: 20174817
+Second membre du groupe:
+Nom: El Feniche
+Prénom: Kamal
+Matricule: 20171282
+-
+Questions sur la percolation
+----------------------------
+1. Quel impact a la taille de grille (supposée carrée) sur le seuil de percolation et la courbe générée ?
+-  On peut remarquer que le seuil de percolation augmente très légèrement (moins d'1%) entre N=10 et N=50, 
+mais qu'ensuite, il se stabilise et ne bouge plus.
+
+-
+2. Comment est-ce que la forme de la grille affecte le seuil de percolation ?
+-       La forme de la grille peut varier de deux manières différentes. 
+	Tout d'abord, lorsque la hauteur de la grille diminue alors que la largeur reste constante, on remarque 
+que le seuil de percolation diminue. En effet, plus on diminue la hauteur de la grille plus la percolation est 
+facile. Par exemple, si la hauteur de la grille vaut 1, alors il ne faut qu'une seule cellule ouverte pour que 
+la percolation ait lieu. Par conséquent, lorsque la hauteur de la grille augmente le seuil alors que la largeur
+reste constante, le seuil de percolation est plus faible.
+	Ensuite, lorsque la hauteur de la grille reste constante mais que la largeur diminue, on remarque que le
+seuil de percolation augmente. Prenons le cas limite où la largeur de la grille vaudrait 1. Cela signifie que 
+pour que cette grille percole, il faudrait que toutes les cellules soient ouvertes.
+
+Implémentation
+--------------
+3. Expliquez brièvement comment vous avez implémenté la fonction gridCreate ?
+
+- Pour implémenter la fonction gridCreate, nous avons d'abord commencé par allouer une variable de type Grid. 
+  Ensuite, comme la structure "Grid" possède un champ "**grid" qui est une matrice, il faut donc allouer une matrice. 
+Dès lors, on commence par allouer n fois un pointeur sur int, où n représente le nombre de lignes. De plus, 
+pour chaque pour chaque ligne, il faut allouer m fois un int, où m est le nombre de colonnes. Chaque étape est
+réalisée en vérifiant que le pointeur obtenu avec la fonction "malloc" est différent du pointeur NULL.
+Si le pointeur obtenu est le pointeur NULL, alors il faut libérer correctement en l'espace qui a été alloué 
+avant (à chaque "malloc" correspond un "free") et renvoyer "exit(-1);". 
+Après avoir tout alloué correctement, on associe au champ les valeurs données par l'utilisateur.
+Ensuite, nous avons divisé notre code en deux cas.
+Premier cas: la densité de cellules ouvertes est inférieur ou égale à 0.5. On part d'une grille où toutes les
+cellules sont fermées et on ouvre dnm (arrondi vers le haut) cellules aléatoirement.
+Deuxième cas: la densité de cellules ouvertes est supérieur à 0.5. On part d'une grille où toutes les cellules
+sont ouvertes et on ferme n*m - dnm cellules (dnm est arrondi vers le haut) aléatoirement.
+
+Enfin, on assigne la valeur 0 au champ "percolated". Cela signifie que la grille n'est pas encore passé par la
+focntion "gridHasPercolated".
+-
+4. Expliquez brièvement comment vous avez implémenté la fonction gridHasPercolated ?
+
+- Pour implémenter la fonction gridHasPercolated, nous avons considéré deux cas.
+	Premier cas: la nombre de ligne de la grille est différent de 1. Dans ce cas, on appelle la focntion
+récursive "recurPercolated" avec le 4eme argument égal à 0, signifiant que la fonction récursive est appelée
+pour la première fois. Dès lors, on fait une boucle sur la première ligne et on vérifie une si une cellule est
+ouverte. Si elle l'est, on la rempli et si la cellules en-dessous permet d'être remplie on la rempli aussi, 
+alors on appelle récursivement "recurPercolated", cette fois-ci avec le 4eme argument égal à 1, signifiant 
+que la fonction n'est pas appelé pour la première fois. Dès lors, on vérifie si on n'est pas aux extrêmités de
+la grille et on vérifie si les cellules adjacentes sont ouvertes. Si elles le sont, on les remplit et fait un 
+appel récursif sur ces cellules. Sinon, on ne fait rien. Enfin, après que les appels récursifs se soient terminés
+on boucle sur la dernière ligne et vérifie s'il y a une cellule remplie. S'il y en a une on retourne 1, 0 sinon.
+	Deuxième cas: le nombre de ligne de la grille est égal à 1. Dans ce cas particulier, on fait une boucle
+sur le première (et seule) ligne de la grille et on vérifie si la cellule est ouverte et on la remplit. Ensuite,
+on fait (encore) une boucle sur cette ligne et verifie s'il y a une cellule remplie. S'il y en a une on retourne 1,
+0 sinon.
+
+Dans chaque cas, avant de retourner 1 ou 0, on affecte la valeur 1 à g->percolated. Cela signifie que le pointeur
+vers la variable de type Grid donnée par l'utilisateur est passé par la fonction "gridHasPercolated".
+
+
+Autres
+------
+6. Si vous avez travaillé en groupe, comment vous êtes-vous réparti le travail ?
+- Nous avons travaillé ensemble sur chaque étape du projet, afin d'avoir deux points de vue différents
+pour aborder chaque implémentation de fonction.
+
+-
+7. Pouvez-vous estimer en heures (et par personne) le temps consacré à  ce projet ?
+- Une vingtaine d'heures
+
+-
+8. Commentaires ou suggestions ? (optionel)
+- 
